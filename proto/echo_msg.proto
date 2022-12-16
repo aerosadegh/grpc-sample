@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+
+// The echo service definition.
+service Echo {
+  // Sends a message
+  rpc SayEcho (EchoRequest) returns (EchoReply) {}
+  // Sends a number
+  rpc Sum (VectorNumber) returns (ValueNumber) {}
+}
+
+message ValueNumber {
+  float value = 1;
+}
+
+message VectorNumber {
+  repeated float vector = 1;
+}
+
+// The request message.
+message EchoRequest {
+  string message = 1;
+}
+
+// The response message containing the echo of message.
+message EchoReply {
+  string rmessage = 1;
+}
