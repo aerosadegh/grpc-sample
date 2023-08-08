@@ -1,4 +1,5 @@
 import logging
+from random import randint
 
 import grpc
 from protos import echo_msg_pb2, echo_msg_pb2_grpc
@@ -17,9 +18,16 @@ def run():
 
         # call  Sum
         stub = echo_msg_pb2_grpc.EchoStub(channel)
-        response = stub.Sum(echo_msg_pb2.VectorNumber(vector=[number for number in [1,2,3,4]]))
-    print(f"Echo client received: {response.value}" )
+        vector = [randint(5, 20) for _ in range(5)]
+        response = stub.Sum(echo_msg_pb2.VectorNumber(vector=vector))
+    logger.info(f"Send Calculation to server for: {vector}")
+    logger.info(f"Echo client received: {response.value}")
+
 
 if __name__ == "__main__":
-    logging.basicConfig()
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s(%(name)s) %(levelname)s - %(message)s",
+    )
+    logger = logging.getLogger(__file__.strip("\\/.py"))
     run()
